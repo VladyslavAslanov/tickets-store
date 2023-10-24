@@ -1,0 +1,43 @@
+{
+  "content": [
+    {
+      "id": 624,
+      "name": "Category 1",
+      "description": "Category 1",
+      "price": 315.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 624,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 290.00,
+      "currency": "PLN"
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 100,
+    "paged": true,
+    "unpaged": false
+  },
+  "totalPages": 1,
+  "totalElements": 2,
+  "last": true,
+  "size": 100,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "numberOfElements": 2,
+  "first": true,
+  "empty": false
+}

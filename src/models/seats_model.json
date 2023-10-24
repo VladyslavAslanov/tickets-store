@@ -1,0 +1,95 @@
+{
+  "content": [
+    {
+      "eventSeatId": 41968,
+      "eventPriceId": 624,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "V2",
+      "place": "1",
+      "type": "circle",
+      "x": 10,
+      "y": 20
+    },
+    {
+      "eventSeatId": 41969,
+      "eventPriceId": 624,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "V2",
+      "place": "2",
+      "type": "circle",
+      "x": 20,
+      "y": 20
+    },
+    {
+      "eventSeatId": 41967,
+      "eventPriceId": 624,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "V2",
+      "place": "3",
+      "type": "circle",
+      "x": 30,
+      "y": 20
+    },
+    {
+      "eventSeatId": 41966,
+      "eventPriceId": 625,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "V1",
+      "place": "1",
+      "type": "circle",
+      "x": 10,
+      "y": 10
+    },
+    {
+      "eventSeatId": 41965,
+      "eventPriceId": 625,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "V1",
+      "place": "2",
+      "type": "circle",
+      "x": 20,
+      "y": 10
+    },
+    {
+      "eventSeatId": 41964,
+      "eventPriceId": 625,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "V1",
+      "place": "3",
+      "type": "circle",
+      "x": 30,
+      "y": 10
+    }
+  ],
+  "pageable": {
+    "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+    },
+    "offset": 0,
+    "pageNumber": 0,
+    "pageSize": 50000,
+    "paged": true,
+    "unpaged": false
+  },
+  "totalPages": 1,
+  "totalElements": 3,
+  "last": true,
+  "size": 50000,
+  "number": 0,
+  "sort": {
+    "empty": true,
+    "sorted": false,
+    "unsorted": true
+  },
+  "numberOfElements": 3,
+  "first": true,
+  "empty": false
+}
