@@ -69,6 +69,27 @@
       "description": "Category 1",
       "price": 165.00,
       "currency": "PLN"
+    },
+    {
+      "id": 634,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 165.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 635,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 165.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 636,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 165.00,
+      "currency": "PLN"
     }
   ],
   "pageable": {

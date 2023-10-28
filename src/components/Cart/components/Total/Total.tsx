@@ -5,7 +5,7 @@ import {Icon} from '@iconify/react';
 interface TotalProps {
     category: string
     numberOfTickets: number
-    onClick: void
+    onClick: () => void
     sum: number
     currency: string
 }

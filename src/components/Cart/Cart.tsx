@@ -12,13 +12,14 @@ interface CartProps {
         category: string
         ticketId: number
     }[]
-    onCancelPurchase: void
+    onCancelPurchase: () => void
     onConfirmPurchase: void
 }
 
 const Cart: FC<CartProps> = ({
                                  cart = [],
-                                 onCancelPurchase = undefined,
+                                 onCancelPurchase = () => {
+                                 },
                                  onConfirmPurchase = undefined
                              }) => {
 

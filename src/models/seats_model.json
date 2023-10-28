@@ -14,7 +14,7 @@
     {
       "eventSeatId": 41969,
       "eventPriceId": 625,
-      "capacityLeft": 0,
+      "capacityLeft": 1,
       "capacity": 1,
       "rowNum": "1",
       "place": "2",
@@ -36,7 +36,7 @@
     {
       "eventSeatId": 41971,
       "eventPriceId": 627,
-      "capacityLeft": 0,
+      "capacityLeft": 1,
       "capacity": 1,
       "rowNum": "1",
       "place": "4",
@@ -58,7 +58,7 @@
     {
       "eventSeatId": 41973,
       "eventPriceId": 629,
-      "capacityLeft": 0,
+      "capacityLeft": 1,
       "capacity": 1,
       "rowNum": "1",
       "place": "6",
@@ -80,7 +80,7 @@
     {
       "eventSeatId": 41975,
       "eventPriceId": 631,
-      "capacityLeft": 0,
+      "capacityLeft": 1,
       "capacity": 1,
       "rowNum": "1",
       "place": "8",
@@ -102,13 +102,46 @@
     {
       "eventSeatId": 41977,
       "eventPriceId": 633,
-      "capacityLeft": 0,
+      "capacityLeft": 1,
       "capacity": 1,
       "rowNum": "1",
       "place": "10",
       "type": "circle",
       "x": 10,
       "y": 100
+    },
+    {
+      "eventSeatId": 41978,
+      "eventPriceId": 634,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "1",
+      "type": "circle",
+      "x": 20,
+      "y": 10
+    },
+    {
+      "eventSeatId": 41979,
+      "eventPriceId": 635,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "2",
+      "type": "circle",
+      "x": 20,
+      "y": 20
+    },
+    {
+      "eventSeatId": 41980,
+      "eventPriceId": 636,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "3",
+      "type": "circle",
+      "x": 20,
+      "y": 30
     }
   ],
   "pageable": {

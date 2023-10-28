@@ -16,18 +16,47 @@ interface SeatMapProps {
     }[]
 }
 
+export interface colorList {
+    category: string
+    color: string
+}
+
 const SeatMap: FC<SeatMapProps> = ({
                                        priceList = [],
                                        currency = "",
-                                       onTicketAdd = (price, category, id) => {
+                                       onTicketAdd = () => {
                                        },
                                        cart = []
                                    }) => {
+    const colors: colorList[] = [
+        {
+        category: "Category 1",
+        color: "#FF6B9B"
+    }, {
+        category: "Category 2",
+        color: "#65DEB8"
+    }, {
+        category: "Category 3",
+        color: "#A930FA"
+    }, {
+        category: "Category 4",
+        color: "#F1532A"
+    }, {
+        category: "Category 5",
+        color: "#78CAD1"
+    }, {
+        category: "Category 6",
+        color: "#FF856B"
+    }, {
+        category: "Category 7",
+        color: "#778CFF"
+    }]
+
     const seats = seatModel.content
     const prices = priceModel.content
     return (
         <div className={classes.seatMap}>
-            <PriceList prices={priceList} currency={currency}/>
+            <PriceList colors={colors} prices={priceList} currency={currency}/>
             <div className={classes.hallLayout}>
                 <div className={classes.stage}>
                     Stage
@@ -45,6 +74,7 @@ const SeatMap: FC<SeatMapProps> = ({
                                     y
                                 }, seatIndex) => {
                         const seatPriceModel = prices.find(el => el.id === eventPriceId);
+
                         return (
                             <SeatItem key={seatIndex}
                                       capacity={capacity}

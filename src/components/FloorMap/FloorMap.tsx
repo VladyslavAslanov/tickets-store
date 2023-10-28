@@ -26,6 +26,10 @@ const FloorMap = () => {
         }
     }
 
+    const onCancelPurchase = () => {
+        setCart([])
+    }
+
     const priceList: number[] = [165, 190, 215, 240, 265, 290, 315]
     const currency = "PLN"
 
@@ -40,7 +44,7 @@ const FloorMap = () => {
             {cart.length > 0
                 && <Cart
                     cart={cart}
-                    onCancelPurchase={undefined}
+                    onCancelPurchase={onCancelPurchase}
                     onConfirmPurchase={undefined}/>}
         </div>
     );

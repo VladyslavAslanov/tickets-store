@@ -30,7 +30,7 @@ const SeatItem: FC<SeatItemProps> = ({
                                          price = 0,
                                          currency = "",
                                          id = 0,
-                                         onTicketAdd = (price, category, id) => {
+                                         onTicketAdd = () => {
                                          },
                                          cart = []
                                      }) => {

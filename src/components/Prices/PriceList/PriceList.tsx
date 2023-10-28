@@ -1,18 +1,21 @@
 import React, {FC} from 'react';
 import classes from './PriceList.module.sass'
 import PriceItem from "../PriceItem/PriceItem";
+import {colorList} from '../../FloorMap/components/SeatMap/SeatMap'
+import {log} from "util";
 
 interface PriceListProps {
     prices: number[],
-    currency: string
+    currency: string,
+    colors: colorList[]
 }
-
-const colorArray: string[] = ["#FF6B9B", "#65DEB8", "#A930FA", "#F1532A", "#78CAD1", "#FF856B", "#778CFF"]
 
 const PriceList: FC<PriceListProps> = ({
                                            prices = [],
                                            currency = '',
+                                           colors = []
                                        }) => {
+    console.log(colors)
     return (
         <div className={classes.priceList}>
             {prices.map((price, priceIndex) => {
@@ -21,7 +24,7 @@ const PriceList: FC<PriceListProps> = ({
                         key={priceIndex}
                         price={price}
                         currency={currency}
-                        color={colorArray[priceIndex]}/>
+                        color={colors[priceIndex].color}/>
                 )
             })}
         </div>
