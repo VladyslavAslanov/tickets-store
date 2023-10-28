@@ -31,10 +31,17 @@ const FloorMap = () => {
 
     return (
         <div className={classes.seatmap}>
-            <SeatMap priceList={priceList} currency={currency} onTicketAdd={onTicketAdd}/>
+            <SeatMap
+                priceList={priceList}
+                currency={currency}
+                onTicketAdd={onTicketAdd}
+                cart={cart}/>
 
             {cart.length > 0
-                && <Cart cart={cart} onCancelPurchase={undefined} onConfirmPurchase={undefined}/>}
+                && <Cart
+                    cart={cart}
+                    onCancelPurchase={undefined}
+                    onConfirmPurchase={undefined}/>}
         </div>
     );
 };

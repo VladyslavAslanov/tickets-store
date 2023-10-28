@@ -9,13 +9,19 @@ interface SeatMapProps {
     priceList: number[]
     currency: string
     onTicketAdd: (price: number, category: string, id: number) => void
+    cart: {
+        price: number
+        category: string
+        ticketId: number
+    }[]
 }
 
 const SeatMap: FC<SeatMapProps> = ({
                                        priceList = [],
                                        currency = "",
                                        onTicketAdd = (price, category, id) => {
-                                       }
+                                       },
+                                       cart = []
                                    }) => {
     const seats = seatModel.content
     const prices = priceModel.content
@@ -54,6 +60,7 @@ const SeatMap: FC<SeatMapProps> = ({
                                       price={seatPriceModel === undefined ? 0 : seatPriceModel.price}
                                       currency={seatPriceModel === undefined ? "" : seatPriceModel.currency}
                                       id={seatPriceModel === undefined ? 0 : seatPriceModel.id}
+                                      cart={cart}
                                       onTicketAdd={onTicketAdd}/>
                         );
                     })}
