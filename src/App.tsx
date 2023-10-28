@@ -1,10 +1,10 @@
 import React from 'react';
-import Seatmap from "./components/Seatmap/Seatmap";
+import FloorMap from "./components/FloorMap/FloorMap";
 
 const App = () => {
   return (
       <div>
-        <Seatmap/>
+        <FloorMap/>
     </div>
   );
 }

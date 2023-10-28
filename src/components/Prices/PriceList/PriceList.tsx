@@ -16,7 +16,13 @@ const PriceList: FC<PriceListProps> = ({
     return (
         <div className={classes.priceList}>
             {prices.map((price, priceIndex) => {
-                return <PriceItem key={priceIndex} price={price} currency={currency} color={colorArray[priceIndex]}/>
+                return (
+                    <PriceItem
+                        key={priceIndex}
+                        price={price}
+                        currency={currency}
+                        color={colorArray[priceIndex]}/>
+                )
             })}
         </div>
     );
