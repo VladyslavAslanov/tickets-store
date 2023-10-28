@@ -31,3 +31,8 @@
 * {
     font-family: 'Raleway', sans-serif;
 }
+
+body {
+    height: 100vh;
+    background-color: var(--background-color-1);
+}

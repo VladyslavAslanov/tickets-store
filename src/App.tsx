@@ -4,7 +4,7 @@ import FloorMap from "./components/FloorMap/FloorMap";
 const App = () => {
   return (
       <div>
-        <FloorMap/>
+          <FloorMap/>
     </div>
   );
 }

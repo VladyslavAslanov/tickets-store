@@ -1,23 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import classes from './FloorMap.module.sass'
-import PriceList from "../Prices/PriceList/PriceList";
-import SeatMap from "./Components/SeatMap/SeatMap";
-import Subheading from "../common/Subheading/Subheading";
+import SeatMap from "./components/SeatMap/SeatMap";
 import Cart from "../Cart/Cart";
 
+interface cartObject {
+    price: number
+    category: string
+}
+
 const FloorMap = () => {
+    const [cart, setCart] = useState<cartObject | null>(null);
+
     const priceList: number[] = [165, 190, 215, 240, 265, 290, 315]
     const currency = "PLN"
+
     return (
         <div className={classes.seatmap}>
-            <PriceList prices={priceList} currency={currency}/>
-            <div className={classes.stageWrapper}>
-                <Subheading subheading="Choose a ticket"/>
-                <div className={classes.seatmapWrapper}>
-                    <SeatMap/>
-                    <Cart onCancelPurchase={undefined} onConfirmPurchase={undefined}/>
-                </div>
-            </div>
+            <SeatMap priceList={priceList} currency={currency}/>
+
+            {cart !== null
+                && <Cart onCancelPurchase={undefined} onConfirmPurchase={undefined}/>}
         </div>
     );
 };

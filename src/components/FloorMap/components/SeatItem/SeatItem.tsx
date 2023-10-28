@@ -12,9 +12,16 @@ interface SeatItemProps {
     type: string
     x: number
     y: number
+    category: string
+    price: number
+    currency: string
 }
 
-const SeatItem: FC<SeatItemProps> = () => {
+const SeatItem: FC<SeatItemProps> = ({
+                                         category = "",
+                                         price = 0,
+                                         currency = ""
+                                     }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
 
     return (
@@ -27,7 +34,13 @@ const SeatItem: FC<SeatItemProps> = () => {
             </div>
 
             {isHovered &&
-                <SeatItemInfoBox price={165} currency="PLN" category="Category 1" row={1} place={1} color="#FF6B9B"/>}
+                <SeatItemInfoBox
+                    price={price}
+                    currency={currency}
+                    category={category}
+                    row={1}
+                    place={1}
+                    color="#FF6B9B"/>}
         </div>
     );
 };
