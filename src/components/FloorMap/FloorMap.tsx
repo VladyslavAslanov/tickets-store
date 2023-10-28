@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import classes from './FloorMap.module.sass'
 import SeatMap from "./components/SeatMap/SeatMap";
 import Cart from "../Cart/Cart";
+import Countdown from "../common/Countdown/Countdown";
 
 interface cartObject {
     price: number
@@ -22,7 +23,8 @@ const FloorMap = () => {
             }
             setCart(prevCart => [...prevCart, newTicket]);
         } else {
-            console.warn(`Ticket with ID ${id} is already in the cart.`);
+            const updatedCart = cart.filter(ticket => ticket.ticketId !== id);
+            setCart(updatedCart);
         }
     }
 
@@ -46,6 +48,10 @@ const FloorMap = () => {
                     cart={cart}
                     onCancelPurchase={onCancelPurchase}
                     onConfirmPurchase={undefined}/>}
+
+            {cart.length > 0
+                && <Countdown onCancelPurchase={onCancelPurchase} 
+                />}
         </div>
     );
 };
