@@ -6,7 +6,7 @@ interface TotalProps {
     category: string
     numberOfTickets: number
     onClick: void
-    price: number
+    sum: number
     currency: string
 }
 
@@ -14,7 +14,7 @@ const Total: FC<TotalProps> = ({
                                    category = "",
                                    numberOfTickets = 1,
                                    onClick = undefined,
-                                   price = null,
+                                   sum = null,
                                    currency = ""
                                }) => {
     return (
@@ -30,7 +30,7 @@ const Total: FC<TotalProps> = ({
             </div>
             <div className={classes.price}>
                 <span>Price</span>
-                <span>{price} {currency}</span>
+                <span>{sum} {currency}</span>
             </div>
         </div>
     );

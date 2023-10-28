@@ -8,11 +8,14 @@ import SeatItem from "../SeatItem/SeatItem";
 interface SeatMapProps {
     priceList: number[]
     currency: string
+    onTicketAdd: (price: number, category: string, id: number) => void
 }
 
 const SeatMap: FC<SeatMapProps> = ({
                                        priceList = [],
-                                       currency = ""
+                                       currency = "",
+                                       onTicketAdd = (price, category, id) => {
+                                       }
                                    }) => {
     const seats = seatModel.content
     const prices = priceModel.content
@@ -50,7 +53,8 @@ const SeatMap: FC<SeatMapProps> = ({
                                       category={seatPriceModel === undefined ? "" : seatPriceModel.name}
                                       price={seatPriceModel === undefined ? 0 : seatPriceModel.price}
                                       currency={seatPriceModel === undefined ? "" : seatPriceModel.currency}
-                            />
+                                      id={seatPriceModel === undefined ? 0 : seatPriceModel.id}
+                                      onTicketAdd={onTicketAdd}/>
                         );
                     })}
                 </div>

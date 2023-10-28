@@ -15,12 +15,17 @@ interface SeatItemProps {
     category: string
     price: number
     currency: string
+    id: number
+    onTicketAdd: (price: number, category: string, id: number) => void
 }
 
 const SeatItem: FC<SeatItemProps> = ({
                                          category = "",
                                          price = 0,
-                                         currency = ""
+                                         currency = "",
+                                         id = 0,
+                                         onTicketAdd = (price, category, id) => {
+                                         }
                                      }) => {
     const [isHovered, setIsHovered] = useState<boolean>(false);
 
@@ -30,7 +35,8 @@ const SeatItem: FC<SeatItemProps> = ({
                 className={classes.seat}
                 style={{backgroundColor: "#FF6B9B"}}
                 onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}>
+                onMouseLeave={() => setIsHovered(false)}
+                onClick={() => onTicketAdd(price, category, id)}>
             </div>
 
             {isHovered &&

@@ -6,20 +6,35 @@ import Cart from "../Cart/Cart";
 interface cartObject {
     price: number
     category: string
+    ticketId: number
 }
 
 const FloorMap = () => {
-    const [cart, setCart] = useState<cartObject | null>(null);
+    const [cart, setCart] = useState<cartObject[]>([]);
+
+    const onTicketAdd = (price: number, category: string, id: number) => {
+        const ticketExists = cart.some(ticket => ticket.ticketId === id);
+        if (!ticketExists) {
+            const newTicket: cartObject = {
+                price: price,
+                category: category,
+                ticketId: id
+            }
+            setCart(prevCart => [...prevCart, newTicket]);
+        } else {
+            console.warn(`Ticket with ID ${id} is already in the cart.`);
+        }
+    }
 
     const priceList: number[] = [165, 190, 215, 240, 265, 290, 315]
     const currency = "PLN"
 
     return (
         <div className={classes.seatmap}>
-            <SeatMap priceList={priceList} currency={currency}/>
+            <SeatMap priceList={priceList} currency={currency} onTicketAdd={onTicketAdd}/>
 
-            {cart !== null
-                && <Cart onCancelPurchase={undefined} onConfirmPurchase={undefined}/>}
+            {cart.length > 0
+                && <Cart cart={cart} onCancelPurchase={undefined} onConfirmPurchase={undefined}/>}
         </div>
     );
 };

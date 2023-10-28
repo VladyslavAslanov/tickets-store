@@ -7,30 +7,40 @@ import PolicyNote from "./components/PolicyNote/PolicyNote";
 import OrderDetails from "./components/OrderDetails/OrderDetails";
 
 interface CartProps {
+    cart: {
+        price: number
+        category: string
+        ticketId: number
+    }[]
     onCancelPurchase: void
     onConfirmPurchase: void
 }
 
 const Cart: FC<CartProps> = ({
+                                 cart = [],
                                  onCancelPurchase = undefined,
                                  onConfirmPurchase = undefined
                              }) => {
+
+    const totalPrice = cart.reduce((accumulatedValue, ticket) => accumulatedValue + ticket.price, 0);
+    const taxFee = Number((34.21 * cart.length).toFixed(3))
+    const serviceFee = Number((13.34 * cart.length).toFixed(3))
     return (
         <div className={classes.cart}>
             <Subheading
                 subheading="Your tickets"/>
             <Total
                 category="Category 1"
-                numberOfTickets={1}
+                numberOfTickets={cart.length}
                 onClick={onCancelPurchase}
-                price={235}
+                sum={totalPrice}
                 currency="PLN"/>
             <OrderDetails
-                numberOfTickets={1}
-                taxFee={34.21}
-                serviceFee={13.34}
+                numberOfTickets={cart.length}
+                taxFee={taxFee}
+                serviceFee={serviceFee}
                 currency="PLN"
-                totalPrice={320}/>
+                totalPrice={totalPrice}/>
             <ConfirmPurchaseButton
                 onClick={onConfirmPurchase}/>
             <PolicyNote/>
