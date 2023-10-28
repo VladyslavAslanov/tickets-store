@@ -11,8 +11,15 @@
 }
 
 :root {
+    --color-black: #000000;
+    --color-white: #FFFFFF;
     --background-color-1:#F5F5F5;
     --background-color-dark: #202020;
+    --background-color-blue-1: #00A3FF;
+    --background-color-blue-2: #60C6FF;
+    --background-color-blue-3: #028FDE;
+    --background-color-blue-4: #C5E6FC;
+    --text-color-darken: #505050;
     --border-color: #E0E0E0;
 }
 

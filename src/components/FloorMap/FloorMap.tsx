@@ -2,7 +2,6 @@ import React from 'react';
 import classes from './FloorMap.module.sass'
 import PriceList from "../Prices/PriceList/PriceList";
 import SeatMap from "./Components/SeatMap/SeatMap";
-import ControlButtons from "../ControlButtons/ControlButtons";
 import Subheading from "../common/Subheading/Subheading";
 import Cart from "../Cart/Cart";
 
@@ -16,7 +15,7 @@ const FloorMap = () => {
                 <Subheading subheading="Choose a ticket"/>
                 <div className={classes.seatmapWrapper}>
                     <SeatMap/>
-                    <Cart/>
+                    <Cart onCancelPurchase={undefined} onConfirmPurchase={undefined}/>
                 </div>
             </div>
         </div>
