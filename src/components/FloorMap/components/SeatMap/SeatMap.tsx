@@ -1,9 +1,11 @@
-import React, {FC, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react'
 import seatModel from '../../../../models/seats_model.json'
 import priceModel from '../../../../models/price_model.json'
 import classes from './SeatMap.module.sass'
-import PriceList from "../../../Prices/PriceList/PriceList";
-import {Circle, Label, Layer, Stage, Tag, Text} from "react-konva";
+import PriceList from "../../../Prices/PriceList/PriceList"
+import {Circle, Label, Layer, Rect, Stage, Tag, Text} from "react-konva"
+import ControlButtons from "../../../ControlButtons/ControlButtons"
+import {changeCursorStyle} from "../../../../helpers/helpers";
 
 interface SeatMapProps {
     priceList: number[]
@@ -16,9 +18,8 @@ interface SeatMapProps {
     }[]
 }
 
-export interface colorList {
-    category: string
-    color: string
+interface colorList {
+    [key: string]: string;
 }
 
 interface kanvaEventObject {
@@ -54,56 +55,42 @@ const SeatMap: FC<SeatMapProps> = ({
                                        cart = []
                                    }) => {
 
-    const colors: colorList[] = [
-        {
-        category: "Category 1",
-        color: "#FF6B9B"
-    }, {
-        category: "Category 2",
-        color: "#65DEB8"
-    }, {
-        category: "Category 3",
-        color: "#A930FA"
-    }, {
-        category: "Category 4",
-        color: "#F1532A"
-    }, {
-        category: "Category 5",
-        color: "#78CAD1"
-    }, {
-        category: "Category 6",
-        color: "#FF856B"
-    }, {
-        category: "Category 7",
-        color: "#778CFF"
-    }]
+    const colors: colorList = {
+        "Category 1": "#FF6B9B",
+        "Category 2": "#65DEB8",
+        "Category 3": "#A930FA",
+        "Category 4": "#F1532A",
+        "Category 5": "#78CAD1",
+        "Category 6": "#FF856B",
+        "Category 7": "#778CFF"
+    }
 
     const seats = seatModel.content
     const prices = priceModel.content
 
     const stageRef = useRef<any>(null);
 
+    const [seatsInCart, setSeatsInCart] = useState<string[]>(cart.map(item => item.ticketId))
+    const [zoom, setZoom] = useState({
+        x: 1,
+        y: 1
+    })
     const [tooltip, setTooltip] = useState<tooltipConfig>({
         visible: false,
         x: 0,
         y: 0,
         text: ""
-    });
+    })
 
     const handleMouseEnter = (e: kanvaEventObject) => {
+        changeCursorStyle(stageRef, "pointer")
+
         const konvaEvent = e.target;
 
         const {price, currency, category, rowNum, place} = e.target.attrs
-        console.log(e)
 
-        if (stageRef.current) {
-            stageRef.current.container().style.cursor = 'pointer';
-        }
-
-        let hoveredElementPos = konvaEvent.getPosition();
-        let hoveredElementRadius = konvaEvent.attrs.radius;
-
-        const div = document.createElement('div')
+        const hoveredElementPos = konvaEvent.getPosition();
+        const hoveredElementRadius = konvaEvent.attrs.radius;
 
         setTooltip({
             visible: true,
@@ -114,9 +101,7 @@ const SeatMap: FC<SeatMapProps> = ({
     }
 
     const handleMouseLeave = () => {
-        if (stageRef.current) {
-            stageRef.current.container().style.cursor = 'default';
-        }
+        changeCursorStyle(stageRef, "default")
 
         setTooltip({
             ...tooltip,
@@ -124,15 +109,60 @@ const SeatMap: FC<SeatMapProps> = ({
         });
     }
 
+    const onZoom = (type: string) => {
+        switch (type) {
+            case "+":
+                setZoom(prevState => ({
+                    x: prevState.x + 0.25,
+                    y: prevState.y + 0.25
+                }))
+                break
+            case "-":
+                setZoom(prevState => ({
+                    x: prevState.x - 0.25,
+                    y: prevState.y - 0.25
+                }))
+                break
+            default:
+                break
+        }
+    }
+
+    useEffect(() => {
+        setSeatsInCart(cart.map(item => item.ticketId));
+    }, [cart]);
+
     return (
         <div className={classes.seatMap}>
-            <PriceList colors={colors} prices={priceList} currency={currency}/>
+            <PriceList prices={priceList} currency={currency}/>
             <div className={classes.hallLayout}>
-                <div className={classes.stage}>
-                    Stage
-                </div>
-                <Stage width={500} height={500} ref={stageRef}>
+                <Stage
+                    scale={{
+                        x: zoom.x,
+                        y: zoom.y
+                    }}
+                    onMouseEnter={() => changeCursorStyle(stageRef, "grab")}
+                    onMouseLeave={() => changeCursorStyle(stageRef, "default")}
+                    onMouseDown={() => changeCursorStyle(stageRef, "grabbing")}
+                    onMouseUp={() => changeCursorStyle(stageRef, "pointer")}
+                    draggable
+                    width={1000}
+                    height={500}
+                    ref={stageRef}
+                    style={{
+                        border: "1px solid red",
+                    }}>
                     <Layer>
+                        <Rect
+                            x={350}
+                            width={300}
+                            height={30}
+                            fill="#F5F5F5"
+                            stroke="#505050"/>
+                    </Layer>
+                    <Layer
+                        x={425}
+                        y={50}>
                         {seats.map(({
                                         capacity,
                                         capacityLeft,
@@ -145,7 +175,9 @@ const SeatMap: FC<SeatMapProps> = ({
                                         y
                                     }, seatIndex) => {
 
-                            const seatPriceModel = prices.find(el => el.id === eventPriceId)
+                            const price = prices.find(el => el.id === eventPriceId)
+                            const isInCart = seatsInCart.includes(eventPriceId.toString());
+                            const isAvailable = capacityLeft > 0
 
                             return (
                                 <Circle
@@ -157,19 +189,20 @@ const SeatMap: FC<SeatMapProps> = ({
                                     place={place}
                                     rowNum={rowNum}
                                     type={type}
-                                    category={seatPriceModel === undefined ? "" : seatPriceModel.name}
-                                    price={seatPriceModel === undefined ? 0 : seatPriceModel.price}
-                                    currency={seatPriceModel === undefined ? "" : seatPriceModel.currency}
-                                    id={seatPriceModel === undefined ? "" : seatPriceModel.id.toString()}
+                                    category={price === undefined ? "" : price.name}
+                                    price={price === undefined ? 0 : price.price}
+                                    currency={price === undefined ? "" : price.currency}
+                                    id={price === undefined ? "" : price.id.toString()}
                                     cart={cart}
-
+                                    stroke={isInCart ? colors[price!.name] : ""}
+                                    strokeWidth={2}
                                     x={x}
                                     y={y}
-                                    radius={5}
-                                    fill="#FF00FF"
-                                    onClick={(e) => onTicketAdd(e)}
-                                    onMouseEnter={handleMouseEnter}
-                                    onMouseLeave={handleMouseLeave}/>
+                                    radius={isInCart ? 4 : isAvailable ? 5 : 3}
+                                    fill={isInCart ? "white" : (isAvailable ? colors[price!.name] : "#F5F5F5")}
+                                    onClick={isAvailable ? (e) => onTicketAdd(e) : undefined}
+                                    onMouseEnter={isAvailable ? handleMouseEnter : undefined}
+                                    onMouseLeave={isAvailable ? handleMouseLeave : undefined}/>
                             )
                         })}
 
@@ -187,21 +220,19 @@ const SeatMap: FC<SeatMapProps> = ({
                                     shadowOffsetY={-3}
                                     shadowOpacity={0.2}
                                     stroke="#E0E0E0"
-                                    cornerRadius={8}
-
-                                />
+                                    cornerRadius={8}/>
                                 <Text
                                     text={tooltip.text}
-                                    fontSize={14}
-                                    padding={5}
-                                    fill="black"
-                                />
+                                    fontSize={12}
+                                    align="center"
+                                    lineHeight={1.25}
+                                    padding={8}
+                                    fill="black"/>
                             </Label>
                         )}
                     </Layer>
                 </Stage>
-                <div className={classes.seats}>
-                </div>
+                <ControlButtons onZoom={onZoom} zoom={zoom}/>
             </div>
         </div>
     );
