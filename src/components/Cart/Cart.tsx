@@ -18,14 +18,14 @@ interface CartProps {
 
 const Cart: FC<CartProps> = ({
                                  cart = [],
-                                 onCancelPurchase = () => {
-                                 },
+                                 onCancelPurchase = () => {},
                                  onConfirmPurchase = undefined
                              }) => {
 
     const totalPrice = cart.reduce((accumulatedValue, ticket) => accumulatedValue + ticket.price, 0);
     const taxFee = Number((34.21 * cart.length).toFixed(3))
     const serviceFee = Number((13.34 * cart.length).toFixed(3))
+
     return (
         <div className={classes.cart}>
             <Subheading

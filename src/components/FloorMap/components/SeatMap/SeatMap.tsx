@@ -1,10 +1,9 @@
-import React, {FC, useRef} from 'react'
+import React, {FC, useRef, useState} from 'react';
 import seatModel from '../../../../models/seats_model.json'
 import priceModel from '../../../../models/price_model.json'
 import classes from './SeatMap.module.sass'
 import PriceList from "../../../Prices/PriceList/PriceList";
-import {Label, Layer, Stage, Tag, Text} from "react-konva";
-import {Circle} from "react-konva/lib/ReactKonvaCore";
+import {Circle, Label, Layer, Stage, Tag, Text} from "react-konva";
 
 interface SeatMapProps {
     priceList: number[]
@@ -31,14 +30,19 @@ interface kanvaEventObject {
         attrs: {
             radius: number
             name: string
+            price: number
+            currency: string
+            category: string
+            rowNum: number
+            place: number
         }
     }
 }
 
-interface labelConfig {
+interface tooltipConfig {
     x: number
     y: number
-    opacity: number
+    text: string
     visible: boolean
 }
 
@@ -79,36 +83,34 @@ const SeatMap: FC<SeatMapProps> = ({
 
     const stageRef = useRef<any>(null);
 
-    const labelConfig: labelConfig = {
+    const [tooltip, setTooltip] = useState<tooltipConfig>({
+        visible: false,
         x: 0,
         y: 0,
-        opacity: 0.8,
-        visible: false,
-    }
-    const labelTextConfig = {
-        text: "",
-        fontSize: 18,
-        padding: 5,
-        fill: "white",
-    }
+        text: ""
+    });
 
     const handleMouseEnter = (e: kanvaEventObject) => {
         const konvaEvent = e.target;
 
+        const {price, currency, category, rowNum, place} = e.target.attrs
+        console.log(e)
+
         if (stageRef.current) {
-            stageRef.current.attrs.container.style.cursor = 'pointer';
+            stageRef.current.container().style.cursor = 'pointer';
         }
 
-        let hoveredElementPos = konvaEvent.getPosition()
+        let hoveredElementPos = konvaEvent.getPosition();
         let hoveredElementRadius = konvaEvent.attrs.radius;
-        let hoveredElementName = konvaEvent.attrs.name;
 
-        labelConfig.x = hoveredElementPos.x;
-        labelConfig.y = hoveredElementPos.y - hoveredElementRadius;
+        const div = document.createElement('div')
 
-        labelTextConfig.text = hoveredElementName;
-
-        labelConfig.visible = true;
+        setTooltip({
+            visible: true,
+            x: hoveredElementPos.x,
+            y: hoveredElementPos.y - hoveredElementRadius,
+            text: `${price} ${currency} \n${category} \nRow ${rowNum} Place ${place}`
+        });
     }
 
     const handleMouseLeave = () => {
@@ -116,7 +118,10 @@ const SeatMap: FC<SeatMapProps> = ({
             stageRef.current.container().style.cursor = 'default';
         }
 
-        labelConfig.visible = false;
+        setTooltip({
+            ...tooltip,
+            visible: false
+        });
     }
 
     return (
@@ -140,7 +145,7 @@ const SeatMap: FC<SeatMapProps> = ({
                                         y
                                     }, seatIndex) => {
 
-                            const seatPriceModel = prices.find(el => el.id === eventPriceId);
+                            const seatPriceModel = prices.find(el => el.id === eventPriceId)
 
                             return (
                                 <Circle
@@ -152,7 +157,6 @@ const SeatMap: FC<SeatMapProps> = ({
                                     place={place}
                                     rowNum={rowNum}
                                     type={type}
-
                                     category={seatPriceModel === undefined ? "" : seatPriceModel.name}
                                     price={seatPriceModel === undefined ? 0 : seatPriceModel.price}
                                     currency={seatPriceModel === undefined ? "" : seatPriceModel.currency}
@@ -169,23 +173,31 @@ const SeatMap: FC<SeatMapProps> = ({
                             )
                         })}
 
-                        <Label config={labelConfig}>
-                            <Tag
-                                config={{
-                                    fill: "black",
-                                    pointerDirection: "down",
-                                    pointerWidth: 10,
-                                    pointerHeight: 10,
-                                    lineJoin: "round",
-                                    shadowColor: "black",
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 10,
-                                    shadowOffsetY: 10,
-                                    shadowOpacity: 0.5,
-                                }}
-                            />
-                            <Text config={labelTextConfig}/>
-                        </Label>
+                        {tooltip.visible && (
+                            <Label x={tooltip.x} y={tooltip.y}>
+                                <Tag
+                                    fill="white"
+                                    pointerDirection="down"
+                                    pointerWidth={10}
+                                    pointerHeight={5}
+                                    lineJoin="round"
+                                    shadowColor="gray"
+                                    shadowBlur={3}
+                                    shadowOffsetX={3}
+                                    shadowOffsetY={-3}
+                                    shadowOpacity={0.2}
+                                    stroke="#E0E0E0"
+                                    cornerRadius={8}
+
+                                />
+                                <Text
+                                    text={tooltip.text}
+                                    fontSize={14}
+                                    padding={5}
+                                    fill="black"
+                                />
+                            </Label>
+                        )}
                     </Layer>
                 </Stage>
                 <div className={classes.seats}>

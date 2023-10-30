@@ -62,8 +62,8 @@ const FloorMap = () => {
                     onConfirmPurchase={undefined}/>}
 
             {cart.length > 0
-                && <Countdown onCancelPurchase={onCancelPurchase} 
-                />}
+                && <Countdown
+                    onCancelPurchase={onCancelPurchase}/>}
         </div>
     );
 };
