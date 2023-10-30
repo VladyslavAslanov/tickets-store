@@ -15,7 +15,6 @@ const PriceList: FC<PriceListProps> = ({
                                            currency = '',
                                            colors = []
                                        }) => {
-    console.log(colors)
     return (
         <div className={classes.priceList}>
             {prices.map((price, priceIndex) => {

@@ -7,13 +7,25 @@ import Countdown from "../common/Countdown/Countdown";
 interface cartObject {
     price: number
     category: string
-    ticketId: number
+    ticketId: string
+}
+
+interface onTicketAddEvent {
+    target: {
+        attrs: {
+            price: number
+            category: string
+            id: string
+        }
+    }
 }
 
 const FloorMap = () => {
     const [cart, setCart] = useState<cartObject[]>([]);
 
-    const onTicketAdd = (price: number, category: string, id: number) => {
+    const onTicketAdd = (e: onTicketAddEvent) => {
+        const {price, category, id} = e.target.attrs
+
         const ticketExists = cart.some(ticket => ticket.ticketId === id);
         if (!ticketExists) {
             const newTicket: cartObject = {

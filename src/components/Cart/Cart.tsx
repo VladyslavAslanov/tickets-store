@@ -10,7 +10,7 @@ interface CartProps {
     cart: {
         price: number
         category: string
-        ticketId: number
+        ticketId: string
     }[]
     onCancelPurchase: () => void
     onConfirmPurchase: void
