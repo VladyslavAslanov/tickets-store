@@ -1,39 +1,6 @@
 {
   "content": [
     {
-      "eventSeatId": 41968,
-      "eventPriceId": 624,
-      "capacityLeft": 1,
-      "capacity": 1,
-      "rowNum": "1",
-      "place": "1",
-      "type": "circle",
-      "x": 10,
-      "y": 10
-    },
-    {
-      "eventSeatId": 41969,
-      "eventPriceId": 625,
-      "capacityLeft": 1,
-      "capacity": 1,
-      "rowNum": "1",
-      "place": "2",
-      "type": "circle",
-      "x": 10,
-      "y": 20
-    },
-    {
-      "eventSeatId": 41970,
-      "eventPriceId": 626,
-      "capacityLeft": 1,
-      "capacity": 1,
-      "rowNum": "1",
-      "place": "3",
-      "type": "circle",
-      "x": 10,
-      "y": 30
-    },
-    {
       "eventSeatId": 41971,
       "eventPriceId": 627,
       "capacityLeft": 1,
@@ -41,8 +8,8 @@
       "rowNum": "1",
       "place": "4",
       "type": "circle",
-      "x": 10,
-      "y": 40
+      "x": 44,
+      "y": 11
     },
     {
       "eventSeatId": 41972,
@@ -52,8 +19,8 @@
       "rowNum": "1",
       "place": "5",
       "type": "circle",
-      "x": 10,
-      "y": 50
+      "x": 55,
+      "y": 11
     },
     {
       "eventSeatId": 41973,
@@ -63,8 +30,8 @@
       "rowNum": "1",
       "place": "6",
       "type": "circle",
-      "x": 10,
-      "y": 60
+      "x": 66,
+      "y": 11
     },
     {
       "eventSeatId": 41974,
@@ -74,8 +41,8 @@
       "rowNum": "1",
       "place": "7",
       "type": "circle",
-      "x": 10,
-      "y": 70
+      "x": 77,
+      "y": 11
     },
     {
       "eventSeatId": 41975,
@@ -85,8 +52,8 @@
       "rowNum": "1",
       "place": "8",
       "type": "circle",
-      "x": 10,
-      "y": 80
+      "x": 88,
+      "y": 11
     },
     {
       "eventSeatId": 41976,
@@ -96,8 +63,8 @@
       "rowNum": "1",
       "place": "9",
       "type": "circle",
-      "x": 10,
-      "y": 90
+      "x": 99,
+      "y": 11
     },
     {
       "eventSeatId": 41977,
@@ -107,8 +74,8 @@
       "rowNum": "1",
       "place": "10",
       "type": "circle",
-      "x": 10,
-      "y": 100
+      "x": 111,
+      "y": 11
     },
     {
       "eventSeatId": 41978,
@@ -118,8 +85,8 @@
       "rowNum": "2",
       "place": "1",
       "type": "circle",
-      "x": 20,
-      "y": 10
+      "x": 11,
+      "y": 22
     },
     {
       "eventSeatId": 41979,
@@ -129,8 +96,8 @@
       "rowNum": "2",
       "place": "2",
       "type": "circle",
-      "x": 20,
-      "y": 20
+      "x": 22,
+      "y": 22
     },
     {
       "eventSeatId": 41980,
@@ -140,8 +107,184 @@
       "rowNum": "2",
       "place": "3",
       "type": "circle",
-      "x": 20,
-      "y": 30
+      "x": 33,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41981,
+      "eventPriceId": 637,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "4",
+      "type": "circle",
+      "x": 44,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41982,
+      "eventPriceId": 638,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "5",
+      "type": "circle",
+      "x": 55,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41983,
+      "eventPriceId": 639,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "6",
+      "type": "circle",
+      "x": 66,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41984,
+      "eventPriceId": 640,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "7",
+      "type": "circle",
+      "x": 77,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41985,
+      "eventPriceId": 641,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "8",
+      "type": "circle",
+      "x": 88,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41986,
+      "eventPriceId": 642,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "9",
+      "type": "circle",
+      "x": 99,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41987,
+      "eventPriceId": 643,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "10",
+      "type": "circle",
+      "x": 111,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41988,
+      "eventPriceId": 644,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "11",
+      "type": "circle",
+      "x": 122,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41989,
+      "eventPriceId": 645,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "12",
+      "type": "circle",
+      "x": 133,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41990,
+      "eventPriceId": 646,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "2",
+      "place": "13",
+      "type": "circle",
+      "x": 144,
+      "y": 22
+    },
+    {
+      "eventSeatId": 41991,
+      "eventPriceId": 647,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "3",
+      "place": "1",
+      "type": "circle",
+      "x": 11,
+      "y": 33
+    },
+    {
+      "eventSeatId": 41992,
+      "eventPriceId": 648,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "3",
+      "place": "2",
+      "type": "circle",
+      "x": 22,
+      "y": 33
+    },
+    {
+      "eventSeatId": 41993,
+      "eventPriceId": 649,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "3",
+      "place": "3",
+      "type": "circle",
+      "x": 33,
+      "y": 33
+    },
+    {
+      "eventSeatId": 41994,
+      "eventPriceId": 650,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "3",
+      "place": "4",
+      "type": "circle",
+      "x": 122,
+      "y": 33
+    },
+    {
+      "eventSeatId": 41995,
+      "eventPriceId": 651,
+      "capacityLeft": 1,
+      "capacity": 1,
+      "rowNum": "3",
+      "place": "5",
+      "type": "circle",
+      "x": 133,
+      "y": 33
+    },
+    {
+      "eventSeatId": 41996,
+      "eventPriceId": 652,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "3",
+      "place": "6",
+      "type": "circle",
+      "x": 144,
+      "y": 33
     }
   ],
   "pageable": {

@@ -11,7 +11,7 @@
       "id": 625,
       "name": "Category 1",
       "description": "Category 1",
-      "price": 222.00,
+      "price": 165.00,
       "currency": "PLN"
     },
     {
@@ -25,7 +25,7 @@
       "id": 627,
       "name": "Category 1",
       "description": "Category 1",
-      "price": 333.00,
+      "price": 165.00,
       "currency": "PLN"
     },
     {
@@ -74,21 +74,133 @@
       "id": 634,
       "name": "Category 2",
       "description": "Category 2",
-      "price": 165.00,
+      "price": 190.00,
       "currency": "PLN"
     },
     {
       "id": 635,
       "name": "Category 2",
       "description": "Category 2",
-      "price": 165.00,
+      "price": 190.00,
       "currency": "PLN"
     },
     {
       "id": 636,
       "name": "Category 2",
       "description": "Category 2",
-      "price": 165.00,
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 637,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 638,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 639,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 640,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 641,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 642,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 643,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 644,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 645,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 646,
+      "name": "Category 2",
+      "description": "Category 2",
+      "price": 190.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 647,
+      "name": "Category 3",
+      "description": "Category 3",
+      "price": 215.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 648,
+      "name": "Category 3",
+      "description": "Category 3",
+      "price": 215.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 649,
+      "name": "Category 3",
+      "description": "Category 3",
+      "price": 215.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 650,
+      "name": "Category 3",
+      "description": "Category 3",
+      "price": 215.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 651,
+      "name": "Category 3",
+      "description": "Category 3",
+      "price": 215.00,
+      "currency": "PLN"
+    },
+    {
+      "id": 652,
+      "name": "Category 3",
+      "description": "Category 3",
+      "price": 215.00,
       "currency": "PLN"
     }
   ],
