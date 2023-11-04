@@ -202,6 +202,13 @@
       "description": "Category 3",
       "price": 215.00,
       "currency": "PLN"
+    },
+    {
+      "id": 653,
+      "name": "",
+      "description": "",
+      "price": null,
+      "currency": ""
     }
   ],
   "pageable": {

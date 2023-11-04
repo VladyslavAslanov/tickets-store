@@ -13,10 +13,10 @@ const PriceItem: FC<PriceItemProps> = ({
                                            color = ''
                                        }) => {
         return (
-            <div className={classes.priceItem}>
+            <button className={classes.priceItem}>
                 <div className={classes.colorIndicator} style={{background: color}}/>
                 {price} {currency}
-            </div>
+            </button>
         );
     }
 ;
