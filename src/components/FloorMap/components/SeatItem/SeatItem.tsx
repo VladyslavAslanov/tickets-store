@@ -1,67 +1,108 @@
-import React, {FC, useState} from 'react';
-import classes from './SeatItem.module.sass'
-import SeatItemInfoBox from "../../../SeatItemInfoBox/SeatItemInfoBox";
-import classNames from "classnames";
+import React, { FC } from "react"
+import priceModel from "../../../../models/price_model.json"
+import { colorList, konvaEventObject } from "../SeatMap/SeatMap"
+import { Circle, Line, Text } from "react-konva"
+
+interface seatModelTypes {
+	eventSeatId: number
+	eventPriceId: number
+	capacityLeft: number
+	capacity: number
+	rowNum: string
+	place: string
+	type: string
+	def: string
+	name: string
+}
 
 interface SeatItemProps {
-    capacity: number
-    capacityLeft: number
-    eventPriceId: number
-    eventSeatId: number
-    place: string
-    rowNum: string
-    type: string
-    x: number
-    y: number
-    category: string
-    price: number
-    currency: string
-    id: number
-    onTicketAdd: (price: number, category: string, id: number) => void
-    cart: {
-        price: number
-        category: string
-        ticketId: number
-    }[]
+	seats: seatModelTypes[]
+	seatsInCart: string[]
+	handleMouseEnter: (e: konvaEventObject) => void
+	handleMouseLeave: () => void
+	onTicketAdd: (e: any) => void
+	colors: colorList
 }
 
 const SeatItem: FC<SeatItemProps> = ({
-                                         category = "",
-                                         price = 0,
-                                         currency = "",
-                                         id = 0,
-                                         onTicketAdd = () => {
-                                         },
-                                         cart = []
-                                     }) => {
-    const [isHovered, setIsHovered] = useState<boolean>(false);
+	seats = [],
+	seatsInCart = [],
+	handleMouseEnter = () => {},
+	handleMouseLeave = () => {},
+	onTicketAdd = () => {},
+	colors = []
+}) => {
+	const prices = priceModel.content
 
-    const isAvailable = !cart.some(ticket => ticket.ticketId === id)
+	const seatElements = seats.map(
+		({ capacity, capacityLeft, eventPriceId, eventSeatId, place, rowNum, type, def, name }, index) => {
+			const price = prices.find((el) => el.id === eventPriceId)
+			const isInCart = seatsInCart.includes(eventPriceId.toString())
+			const isAvailable = capacityLeft > 0
+			const parsedCoordinates = def.replace(",", "").split(" ")
 
-    const seatStyles = classNames(classes.seat, {
-        [classes.unavailableSeat]: !isAvailable
-    })
+			console.log(parsedCoordinates)
 
-    return (
-        <div className={classes.setItemWrapper}>
-            <div
-                className={seatStyles}
-                style={{backgroundColor: isAvailable ? "#FF6B9B" : "#DFDFDF"}}
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
-                onClick={() => onTicketAdd(price, category, id)}>
-            </div>
+			switch (type) {
+				case "seat":
+					return (
+						<Circle
+							key={index}
+							capacity={capacity}
+							capacityLeft={capacityLeft}
+							eventPriceId={eventPriceId}
+							eventSeatId={eventSeatId}
+							place={place}
+							rowNum={rowNum}
+							type={type}
+							category={price === undefined ? "" : price.name}
+							price={price === undefined ? 0 : price.price}
+							currency={price === undefined ? "" : price.currency}
+							id={price === undefined ? "" : price.id.toString()}
+							// cart={cart}
+							stroke="black"
+							// fill={isInCart ? "white" : isAvailable ? colors[price?.name] : "#F5F5F5"}
+							strokeWidth={2}
+							x={Number(parsedCoordinates[0])}
+							y={Number(parsedCoordinates[1])}
+							radius={isInCart ? 4 : isAvailable ? 5 : 3}
+							onClick={isAvailable ? (e: any) => onTicketAdd(e) : undefined}
+							onMouseEnter={isAvailable ? handleMouseEnter : undefined}
+							onMouseLeave={isAvailable ? handleMouseLeave : undefined}
+						/>
+					)
+				case "row":
+					return (
+						<Text
+							x={Number(parsedCoordinates[0])}
+							y={Number(parsedCoordinates[1])}
+							text={name}
+						/>
+					)
+				case "floor":
+					return (
+						<Circle
+							x={Number(parsedCoordinates[0])}
+							y={Number(parsedCoordinates[1])}
+							stroke="red"
+							fill="red"
+							radius={6}
+						/>
+					)
+				case "line":
+					const numericCoordinates = parsedCoordinates.map((el) => parseInt(el))
+					return <Line
+						points={numericCoordinates}
+						stroke="red"
+						strokeWidth={2}
+					/>
+				default:
+					return null
+			}
+		}
+	)
 
-            {isHovered &&
-                <SeatItemInfoBox
-                    price={price}
-                    currency={currency}
-                    category={category}
-                    row={1}
-                    place={1}
-                    color="#FF6B9B"/>}
-        </div>
-    );
-};
+	return <div>{seatElements}</div>
+}
 
-export default SeatItem;
+export default SeatItem

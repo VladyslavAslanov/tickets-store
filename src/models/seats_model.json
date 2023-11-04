@@ -287,7 +287,7 @@
       "name": ""
     },
     {
-      "eventSeatId": 41969,
+      "eventSeatId": 41967,
       "eventPriceId": 653,
       "capacityLeft": 0,
       "capacity": 1,
@@ -296,6 +296,72 @@
       "type": "stage",
       "def": "50, 0, 100, 0, 100, 20, 50, 20, 50, 0",
       "name": "STAGE"
+    },
+    {
+      "eventSeatId": 41968,
+      "eventPriceId": 654,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "V1",
+      "place": "1",
+      "type": "row",
+      "def": "28, 4",
+      "name": "1"
+    },
+    {
+      "eventSeatId": 41969,
+      "eventPriceId": 655,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "V2",
+      "place": "1",
+      "type": "row",
+      "def": "-5, 16",
+      "name": "2"
+    },
+    {
+      "eventSeatId": 41970,
+      "eventPriceId": 656,
+      "capacityLeft": 0,
+      "capacity": 1,
+      "rowNum": "V3",
+      "place": "1",
+      "type": "row",
+      "def": "-5, 28",
+      "name": "3"
+    },
+    {
+      "eventSeatId": 41971,
+      "eventPriceId": 657,
+      "capacityLeft": 0,
+      "capacity": 0,
+      "rowNum": "V1",
+      "place": "1",
+      "type": "floor",
+      "def": "77, 36",
+      "name": "Table 1"
+    },
+    {
+      "eventSeatId": 41971,
+      "eventPriceId": 658,
+      "capacityLeft": 0,
+      "capacity": 0,
+      "rowNum": "V1",
+      "place": "1",
+      "type": "line",
+      "def": "0, 70, 0, 300",
+      "name": ""
+    },
+    {
+      "eventSeatId": 41971,
+      "eventPriceId": 659,
+      "capacityLeft": 0,
+      "capacity": 0,
+      "rowNum": "V1",
+      "place": "1",
+      "type": "line",
+      "def": "150, 70, 150, 300",
+      "name": ""
     }
   ],
   "pageable": {

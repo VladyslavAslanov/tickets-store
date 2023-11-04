@@ -3,9 +3,10 @@ import seatModel from "../../../../models/seats_model.json"
 import priceModel from "../../../../models/price_model.json"
 import classes from "./SeatMap.module.sass"
 import PriceList from "../../../Prices/PriceList/PriceList"
-import { Circle, Label, Layer, Rect, RegularPolygon, Stage, Tag, Text } from "react-konva"
+import { Label, Layer, Rect, Stage, Tag, Text } from "react-konva"
 import ControlButtons from "../../../ControlButtons/ControlButtons"
 import { changeCursorStyle } from "../../../../helpers/helpers"
+import SeatItem from "../SeatItem/SeatItem"
 
 interface SeatMapProps {
 	priceList: number[]
@@ -18,11 +19,11 @@ interface SeatMapProps {
 	}[]
 }
 
-interface colorList {
+export interface colorList {
     [key: string]: string;
 }
 
-interface konvaEventObject {
+export interface konvaEventObject {
 	target: {
 		getPosition: () => {
 			x: number
@@ -59,11 +60,8 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 	}
 
 	const seats = seatModel.content
-	const prices = priceModel.content
 
 	const wrapperWidth = 750
-	const stageWidth = 300
-	const stageOffset = (wrapperWidth - stageWidth) / 2
 	const seatsOffset = wrapperWidth / 2
 
 	const stageRef = useRef<any>(null)
@@ -150,58 +148,20 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 					width={wrapperWidth}
 					height={500}
 					ref={stageRef}
+					style={{ border: "1px solid red" }}
 				>
-					<Layer>
-						<Rect
-							x={stageOffset}
-							width={stageWidth}
-							height={30}
-							fill="#F5F5F5"
-							stroke="#505050"
-						/>
-					</Layer>
 					<Layer
 						x={seatsOffset}
-						y={50}
 						id="seats"
 					>
-						{seats.map(
-							(
-								{ capacity, capacityLeft, eventPriceId, eventSeatId, place, rowNum, type, def, name },
-								seatIndex
-							) => {
-								const price = prices.find((el) => el.id === eventPriceId)
-								const isInCart = seatsInCart.includes(eventPriceId.toString())
-								const isAvailable = capacityLeft > 0
-
-								return (
-									<Circle
-										key={seatIndex}
-										capacity={capacity}
-										capacityLeft={capacityLeft}
-										eventPriceId={eventPriceId}
-										eventSeatId={eventSeatId}
-										place={place}
-										rowNum={rowNum}
-										type={type}
-										category={price === undefined ? "" : price.name}
-										price={price === undefined ? 0 : price.price}
-										currency={price === undefined ? "" : price.currency}
-										id={price === undefined ? "" : price.id.toString()}
-										cart={cart}
-										stroke={isInCart ? colors[price!.name] : ""}
-										strokeWidth={2}
-										// x={x}
-										// y={y}
-										radius={isInCart ? 4 : isAvailable ? 5 : 3}
-										fill={isInCart ? "white" : isAvailable ? colors[price!.name] : "#F5F5F5"}
-										onClick={isAvailable ? (e) => onTicketAdd(e) : undefined}
-										onMouseEnter={isAvailable ? handleMouseEnter : undefined}
-										onMouseLeave={isAvailable ? handleMouseLeave : undefined}
-									/>
-								)
-							}
-						)}
+						<SeatItem
+							seats={seats}
+							seatsInCart={seatsInCart}
+							handleMouseEnter={handleMouseEnter}
+							handleMouseLeave={handleMouseLeave}
+							onTicketAdd={onTicketAdd}
+							colors={colors}
+						/>
 
 						{tooltip.visible && (
 							<Label
