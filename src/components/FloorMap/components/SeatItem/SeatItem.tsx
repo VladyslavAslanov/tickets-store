@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import priceModel from "../../../../models/price_model.json"
 import { colorList, konvaEventObject } from "../SeatMap/SeatMap"
-import { Circle, Line, Text } from "react-konva"
+import { Circle, Group, Line, Text } from "react-konva"
 
 interface seatModelTypes {
 	eventSeatId: number
@@ -42,7 +42,9 @@ const SeatItem: FC<SeatItemProps> = ({
 			const parsedCoordinates = def.replace(",", "").split(" ")
 
 			switch (type) {
-				case "seat":
+				case "seat": {
+					const [x, y] = parsedCoordinates.map((el) => parseInt(el))
+
 					return (
 						<Circle
 							key={index}
@@ -60,36 +62,50 @@ const SeatItem: FC<SeatItemProps> = ({
 							strokeWidth={2}
 							stroke={isInCart ? colors[price!.name] : ""}
 							fill={isInCart ? "white" : isAvailable ? colors[price!.name] : "#F5F5F5"}
-							x={Number(parsedCoordinates[0])}
-							y={Number(parsedCoordinates[1])}
+							x={x}
+							y={y}
 							radius={isInCart ? 4 : isAvailable ? 5 : 3}
 							onClick={isAvailable ? (e: any) => onTicketAdd(e) : undefined}
 							onMouseEnter={isAvailable ? handleMouseEnter : undefined}
 							onMouseLeave={isAvailable ? handleMouseLeave : undefined}
 						/>
 					)
-				case "row":
+				}
+				case "row": {
+					const [x, y] = parsedCoordinates.map((el) => parseInt(el))
+
 					return (
 						<Text
 							key={index}
-							x={Number(parsedCoordinates[0])}
-							y={Number(parsedCoordinates[1])}
+							x={x}
+							y={y}
 							text={name}
 						/>
 					)
-				case "table":
+				}
+				case "table": {
+					const [x, y] = parsedCoordinates.map((el) => parseInt(el))
+
 					return (
-						<Circle
-							key={index}
-							x={Number(parsedCoordinates[0])}
-							y={Number(parsedCoordinates[1])}
-							stroke="red"
-							fill="red"
-							radius={6}
-						/>
+						<Group key={`table-group-${index}`}>
+							<Circle
+								key={index}
+								x={x}
+								y={y}
+								fill="red"
+								radius={7}
+							/>
+							<Text
+								x={x}
+								y={y}
+								text={name}
+							/>
+						</Group>
 					)
-				case "line":
+				}
+				case "line": {
 					const lineCoordinates = parsedCoordinates.map((el) => parseInt(el))
+
 					return (
 						<Line
 							key={index}
@@ -98,31 +114,76 @@ const SeatItem: FC<SeatItemProps> = ({
 							strokeWidth={2}
 						/>
 					)
-				case "floor":
+				}
+				case "floor": {
 					const floorCoordinates = parsedCoordinates.map((el) => parseInt(el))
+
+					let minX = Infinity,
+						maxX = -Infinity,
+						minY = Infinity,
+						maxY = -Infinity
+
+					for (let i = 0; i < floorCoordinates.length; i += 2) {
+						minX = Math.min(minX, floorCoordinates[i])
+						maxX = Math.max(maxX, floorCoordinates[i])
+						minY = Math.min(minY, floorCoordinates[i + 1])
+						maxY = Math.max(maxY, floorCoordinates[i + 1])
+					}
+
+					const centerX = (minX + maxX) / 2.4
+					const centerY = (minY + maxY) / 2
+
 					return (
-						<Line
-							key={index}
-							stroke="red"
-							strokeWidth={2}
-							closed={true}
-							fill="lightblue"
-							points={floorCoordinates}
-							onClick={isAvailable ? (e: any) => onTicketAdd(e) : undefined}
-						/>
+						<Group key={`floor-index-${index}`}>
+							<Line
+								closed={true}
+								fill="lightblue"
+								points={floorCoordinates}
+								onClick={isAvailable ? (e: any) => onTicketAdd(e) : undefined}
+							/>
+							<Text
+								x={centerX}
+								y={centerY}
+								text={name}
+							/>
+						</Group>
 					)
-				case "stage":
+				}
+				case "stage": {
 					const stageCoordinates = parsedCoordinates.map((el) => parseInt(el))
+
+					let minX = Infinity,
+						maxX = -Infinity,
+						minY = Infinity,
+						maxY = -Infinity
+
+					for (let i = 0; i < stageCoordinates.length; i += 2) {
+						minX = Math.min(minX, stageCoordinates[i])
+						maxX = Math.max(maxX, stageCoordinates[i])
+						minY = Math.min(minY, stageCoordinates[i + 1])
+						maxY = Math.max(maxY, stageCoordinates[i + 1])
+					}
+
+					const centerX = (minX + maxX) / 2.4
+					const centerY = (minY + maxY) / 1.75
+
 					return (
-						<Line
-							key={index}
-							stroke="red"
-							strokeWidth={2}
-							closed={true}
-							fill="lightgreen"
-							points={stageCoordinates}
-						/>
+						<Group key={`stage-index-${index}`}>
+							<Line
+								key={index}
+								strokeWidth={2}
+								closed={true}
+								fill="lightgreen"
+								points={stageCoordinates}
+							/>
+							<Text
+								x={centerX}
+								y={centerY}
+								text={name}
+							/>
+						</Group>
 					)
+				}
 				default:
 					return null
 			}

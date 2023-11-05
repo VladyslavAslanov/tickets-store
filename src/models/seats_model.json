@@ -372,7 +372,7 @@
       "place": "1",
       "type": "floor",
       "def": "50, 70, 50, 250, 100, 250, 100, 70, 49, 70",
-      "name": ""
+      "name": "Floor"
     }
   ],
   "pageable": {
