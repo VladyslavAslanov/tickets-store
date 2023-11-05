@@ -294,8 +294,8 @@
       "rowNum": "V1",
       "place": "1",
       "type": "stage",
-      "def": "50, 0, 100, 0, 100, 20, 50, 20, 50, 0",
-      "name": "STAGE"
+      "def": "-50, -50, 200, -50, 200, -20, -50, -20",
+      "name": "Stage"
     },
     {
       "eventSeatId": 41968,
@@ -337,7 +337,7 @@
       "capacity": 0,
       "rowNum": "V1",
       "place": "1",
-      "type": "floor",
+      "type": "table",
       "def": "77, 36",
       "name": "Table 1"
     },
@@ -361,6 +361,17 @@
       "place": "1",
       "type": "line",
       "def": "150, 70, 150, 300",
+      "name": ""
+    },
+    {
+      "eventSeatId": 41971,
+      "eventPriceId": 660,
+      "capacityLeft": 100,
+      "capacity": 100,
+      "rowNum": "V1",
+      "place": "1",
+      "type": "floor",
+      "def": "50, 70, 50, 250, 100, 250, 100, 70, 49, 70",
       "name": ""
     }
   ],

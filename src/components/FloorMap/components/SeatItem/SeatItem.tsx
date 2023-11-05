@@ -30,7 +30,7 @@ const SeatItem: FC<SeatItemProps> = ({
 	handleMouseEnter = () => {},
 	handleMouseLeave = () => {},
 	onTicketAdd = () => {},
-	colors = []
+	colors,
 }) => {
 	const prices = priceModel.content
 
@@ -40,8 +40,6 @@ const SeatItem: FC<SeatItemProps> = ({
 			const isInCart = seatsInCart.includes(eventPriceId.toString())
 			const isAvailable = capacityLeft > 0
 			const parsedCoordinates = def.replace(",", "").split(" ")
-
-			console.log(parsedCoordinates)
 
 			switch (type) {
 				case "seat":
@@ -59,9 +57,7 @@ const SeatItem: FC<SeatItemProps> = ({
 							price={price === undefined ? 0 : price.price}
 							currency={price === undefined ? "" : price.currency}
 							id={price === undefined ? "" : price.id.toString()}
-							// cart={cart}
-							stroke="black"
-							// fill={isInCart ? "white" : isAvailable ? colors[price?.name] : "#F5F5F5"}
+							fill={isInCart ? "white" : (isAvailable && price ? colors[price.name] : "#F5F5F5")}
 							strokeWidth={2}
 							x={Number(parsedCoordinates[0])}
 							y={Number(parsedCoordinates[1])}
@@ -74,14 +70,16 @@ const SeatItem: FC<SeatItemProps> = ({
 				case "row":
 					return (
 						<Text
+							key={index}
 							x={Number(parsedCoordinates[0])}
 							y={Number(parsedCoordinates[1])}
 							text={name}
 						/>
 					)
-				case "floor":
+				case "table":
 					return (
 						<Circle
+							key={index}
 							x={Number(parsedCoordinates[0])}
 							y={Number(parsedCoordinates[1])}
 							stroke="red"
@@ -90,12 +88,40 @@ const SeatItem: FC<SeatItemProps> = ({
 						/>
 					)
 				case "line":
-					const numericCoordinates = parsedCoordinates.map((el) => parseInt(el))
-					return <Line
-						points={numericCoordinates}
-						stroke="red"
-						strokeWidth={2}
-					/>
+					const lineCoordinates = parsedCoordinates.map((el) => parseInt(el))
+					return (
+						<Line
+							key={index}
+							points={lineCoordinates}
+							stroke="red"
+							strokeWidth={2}
+						/>
+					)
+				case "floor":
+					const floorCoordinates = parsedCoordinates.map((el) => parseInt(el))
+					return (
+						<Line
+							key={index}
+							stroke="red"
+							strokeWidth={2}
+							closed={true}
+							fill="lightblue"
+							points={floorCoordinates}
+							onClick={isAvailable ? (e: any) => onTicketAdd(e) : undefined}
+						/>
+					)
+				case "stage":
+					const stageCoordinates = parsedCoordinates.map((el) => parseInt(el))
+					return (
+						<Line
+							key={index}
+							stroke="red"
+							strokeWidth={2}
+							closed={true}
+							fill="lightgreen"
+							points={stageCoordinates}
+						/>
+					)
 				default:
 					return null
 			}

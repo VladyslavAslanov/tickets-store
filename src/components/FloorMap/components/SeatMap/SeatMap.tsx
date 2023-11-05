@@ -1,9 +1,8 @@
 import React, { FC, useEffect, useRef, useState } from "react"
 import seatModel from "../../../../models/seats_model.json"
-import priceModel from "../../../../models/price_model.json"
 import classes from "./SeatMap.module.sass"
 import PriceList from "../../../Prices/PriceList/PriceList"
-import { Label, Layer, Rect, Stage, Tag, Text } from "react-konva"
+import { Label, Layer, Stage, Tag, Text } from "react-konva"
 import ControlButtons from "../../../ControlButtons/ControlButtons"
 import { changeCursorStyle } from "../../../../helpers/helpers"
 import SeatItem from "../SeatItem/SeatItem"
@@ -35,7 +34,7 @@ export interface konvaEventObject {
 			price: number
 			currency: string
 			category: string
-			rowNum: number
+			rowNum: string
 			place: number
 		}
 	}
@@ -88,11 +87,13 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 		const hoveredElementPos = konvaEvent.getPosition()
 		const hoveredElementRadius = konvaEvent.attrs.radius
 
+		const parsedRowNumber = rowNum.replace("V", "")
+
 		setTooltip({
 			visible: true,
 			x: hoveredElementPos.x,
 			y: hoveredElementPos.y - hoveredElementRadius,
-			text: `${price} ${currency} \n${category} \nRow ${rowNum} Place ${place}`
+			text: `${price} ${currency} \n${category} \nRow ${parsedRowNumber} Place ${place}`
 		})
 	}
 
@@ -148,10 +149,10 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 					width={wrapperWidth}
 					height={500}
 					ref={stageRef}
-					style={{ border: "1px solid red" }}
 				>
 					<Layer
 						x={seatsOffset}
+						y={75}
 						id="seats"
 					>
 						<SeatItem
