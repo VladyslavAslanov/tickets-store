@@ -57,8 +57,9 @@ const SeatItem: FC<SeatItemProps> = ({
 							price={price === undefined ? 0 : price.price}
 							currency={price === undefined ? "" : price.currency}
 							id={price === undefined ? "" : price.id.toString()}
-							fill={isInCart ? "white" : (isAvailable && price ? colors[price.name] : "#F5F5F5")}
 							strokeWidth={2}
+							stroke={isInCart ? colors[price!.name] : ""}
+							fill={isInCart ? "white" : isAvailable ? colors[price!.name] : "#F5F5F5"}
 							x={Number(parsedCoordinates[0])}
 							y={Number(parsedCoordinates[1])}
 							radius={isInCart ? 4 : isAvailable ? 5 : 3}
