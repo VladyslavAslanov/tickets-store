@@ -1,5 +1,4 @@
 import React, { FC, useEffect, useRef, useState } from "react"
-import seatModel from "../../../../models/seats_model.json"
 import classes from "./SeatMap.module.sass"
 import PriceList from "../../../Prices/PriceList/PriceList"
 import { Label, Layer, Stage, Tag, Text } from "react-konva"
@@ -58,8 +57,6 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 		"Category 7": "#778CFF"
 	}
 
-	const seats = seatModel.content
-
 	const wrapperWidth = 750
 	const seatsOffset = wrapperWidth / 2
 
@@ -67,8 +64,8 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 
 	const [seatsInCart, setSeatsInCart] = useState<string[]>(cart.map((item) => item.ticketId))
 	const [zoom, setZoom] = useState({
-		x: 1,
-		y: 1
+		x: 0.5,
+		y: 0.5
 	})
 	const [tooltip, setTooltip] = useState<tooltipConfig>({
 		visible: false,
@@ -76,6 +73,7 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 		y: 0,
 		text: ""
 	})
+	const [seats, setSeats] = useState([])
 
 	const handleMouseEnter = (e: konvaEventObject) => {
 		changeCursorStyle(stageRef, "pointer")
@@ -125,8 +123,48 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 		}
 	}
 
+	async function svgParser() {
+		const response = await fetch("/static/media/stage.6a492f3c92905d088c63fc3b809294f1.svg")
+		const svgContent = await response.text()
+
+		const xmlDoc = new DOMParser().parseFromString(svgContent, "text/xml").querySelector("g")
+
+		const models: any = []
+
+		Array.from(xmlDoc!.children).forEach((child) => {
+			const definition = () => {
+				if (child.tagName === "path") {
+					return [child.getAttribute("d")]
+				} else if (child.tagName === "ellipse") {
+					return [Number(child.getAttribute("cx")), Number(child.getAttribute("cy"))]
+				} else {
+					return [Number(child.getAttribute("x")), Number(child.getAttribute("y"))]
+				}
+			}
+
+			const model = {
+				eventSeatId: child.getAttribute("id"),
+				eventPriceId: "--",
+				capacityLeft: "--",
+				capacity: child.getAttribute("data-capacity"),
+				rowNum: child.getAttribute("rownum"),
+				place: child.getAttribute("data-place"),
+				type: child.getAttribute("data-element-type"),
+				def: definition(),
+				name: child.getAttribute("data-definition")
+			}
+			models.push(model)
+		})
+		return models
+	}
+
+
 	useEffect(() => {
 		setSeatsInCart(cart.map((item) => item.ticketId))
+
+		svgParser().then((data) => {
+			setSeats(data)
+		})
 	}, [cart])
 
 	return (

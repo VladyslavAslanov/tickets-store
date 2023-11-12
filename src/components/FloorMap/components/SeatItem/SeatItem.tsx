@@ -39,11 +39,16 @@ const SeatItem: FC<SeatItemProps> = ({
 			const price = prices.find((el) => el.id === eventPriceId)
 			const isInCart = seatsInCart.includes(eventPriceId.toString())
 			const isAvailable = capacityLeft > 0
-			const parsedCoordinates = def.replace(",", "").split(" ")
+
 
 			switch (type) {
 				case "seat": {
-					const [x, y] = parsedCoordinates.map((el) => parseInt(el))
+					const [xString, yString] = def
+
+					const x = parseFloat(xString)
+					const y = parseFloat(yString)
+
+					console.log(x, y)
 
 					return (
 						<Circle
@@ -61,10 +66,10 @@ const SeatItem: FC<SeatItemProps> = ({
 							id={price === undefined ? "" : price.id.toString()}
 							strokeWidth={2}
 							stroke={isInCart ? colors[price!.name] : ""}
-							fill={isInCart ? "white" : isAvailable ? colors[price!.name] : "#F5F5F5"}
+							fill={"red"}
 							x={x}
 							y={y}
-							radius={isInCart ? 4 : isAvailable ? 5 : 3}
+							radius={isInCart ? 4 : isAvailable ? 5 : 7}
 							onClick={isAvailable ? (e: any) => onTicketAdd(e) : undefined}
 							onMouseEnter={isAvailable ? handleMouseEnter : undefined}
 							onMouseLeave={isAvailable ? handleMouseLeave : undefined}
@@ -72,7 +77,10 @@ const SeatItem: FC<SeatItemProps> = ({
 					)
 				}
 				case "row": {
-					const [x, y] = parsedCoordinates.map((el) => parseInt(el))
+					const [xString, yString] = def
+
+					const x = parseFloat(xString)
+					const y = parseFloat(yString)
 
 					return (
 						<Text
@@ -84,7 +92,10 @@ const SeatItem: FC<SeatItemProps> = ({
 					)
 				}
 				case "table": {
-					const [x, y] = parsedCoordinates.map((el) => parseInt(el))
+					const [xString, yString] = def
+
+					const x = parseFloat(xString)
+					const y = parseFloat(yString)
 
 					return (
 						<Group key={`table-group-${index}`}>
@@ -103,31 +114,27 @@ const SeatItem: FC<SeatItemProps> = ({
 						</Group>
 					)
 				}
-				case "line": {
-					const lineCoordinates = parsedCoordinates.map((el) => parseInt(el))
-
+				case "other": {
 					return (
 						<Line
 							key={index}
-							points={lineCoordinates}
+							// points={def}
 							stroke="red"
 							strokeWidth={2}
 						/>
 					)
 				}
 				case "floor": {
-					const floorCoordinates = parsedCoordinates.map((el) => parseInt(el))
-
 					let minX = Infinity,
 						maxX = -Infinity,
 						minY = Infinity,
 						maxY = -Infinity
 
-					for (let i = 0; i < floorCoordinates.length; i += 2) {
-						minX = Math.min(minX, floorCoordinates[i])
-						maxX = Math.max(maxX, floorCoordinates[i])
-						minY = Math.min(minY, floorCoordinates[i + 1])
-						maxY = Math.max(maxY, floorCoordinates[i + 1])
+					for (let i = 0; i < def.length; i += 2) {
+						// minX = Math.min(minX, def[i])
+						// maxX = Math.max(maxX, def[i])
+						// minY = Math.min(minY, def[i + 1])
+						// maxY = Math.max(maxY, def[i + 1])
 					}
 
 					const centerX = (minX + maxX) / 2.4
@@ -138,7 +145,7 @@ const SeatItem: FC<SeatItemProps> = ({
 							<Line
 								closed={true}
 								fill="lightblue"
-								points={floorCoordinates}
+								// points={def}
 								onClick={isAvailable ? (e: any) => onTicketAdd(e) : undefined}
 							/>
 							<Text
@@ -150,18 +157,16 @@ const SeatItem: FC<SeatItemProps> = ({
 					)
 				}
 				case "stage": {
-					const stageCoordinates = parsedCoordinates.map((el) => parseInt(el))
-
 					let minX = Infinity,
 						maxX = -Infinity,
 						minY = Infinity,
 						maxY = -Infinity
 
-					for (let i = 0; i < stageCoordinates.length; i += 2) {
-						minX = Math.min(minX, stageCoordinates[i])
-						maxX = Math.max(maxX, stageCoordinates[i])
-						minY = Math.min(minY, stageCoordinates[i + 1])
-						maxY = Math.max(maxY, stageCoordinates[i + 1])
+					for (let i = 0; i < def.length; i += 2) {
+						// minX = Math.min(minX, def[i])
+						// maxX = Math.max(maxX, def[i])
+						// minY = Math.min(minY, def[i + 1])
+						// maxY = Math.max(maxY, def[i + 1])
 					}
 
 					const centerX = (minX + maxX) / 2.4
@@ -174,7 +179,7 @@ const SeatItem: FC<SeatItemProps> = ({
 								strokeWidth={2}
 								closed={true}
 								fill="lightgreen"
-								points={stageCoordinates}
+								// points={def}
 							/>
 							<Text
 								x={centerX}
