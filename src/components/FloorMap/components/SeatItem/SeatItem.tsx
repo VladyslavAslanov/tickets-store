@@ -48,8 +48,6 @@ const SeatItem: FC<SeatItemProps> = ({
 					const x = parseFloat(xString)
 					const y = parseFloat(yString)
 
-					console.log(x, y)
-
 					return (
 						<Circle
 							key={index}

@@ -46,6 +46,18 @@ interface tooltipConfig {
 	visible: boolean
 }
 
+interface seat {
+	capacity: string
+	capacityLeft: string
+	def: number[]
+	eventPriceId: string
+	eventSeatId: string
+	name: string
+	place: string
+	rowNum: string
+	type: string
+}
+
 const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd = () => {}, cart = [] }) => {
 	const colors: colorList = {
 		"Category 1": "#FF6B9B",
@@ -64,8 +76,8 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 
 	const [seatsInCart, setSeatsInCart] = useState<string[]>(cart.map((item) => item.ticketId))
 	const [zoom, setZoom] = useState({
-		x: 0.5,
-		y: 0.5
+		x: 0.35,
+		y: 0.35
 	})
 	const [tooltip, setTooltip] = useState<tooltipConfig>({
 		visible: false,
@@ -158,6 +170,34 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 		return models
 	}
 
+	const limits = (limit: string) => {
+		let maxValue = 900
+		seats.forEach((seat: seat) => {
+			const [x, y] = seat.def
+			if (limit === "x" && x > maxValue) {
+				maxValue = x
+			} else if (limit === "y" && y > maxValue) {
+				maxValue = y
+			}
+		})
+		return maxValue
+	}
+
+	const dragBoundFunc = (pos: { x: number; y: number }) => {
+		const imageWidth = limits("x") + 900
+		const imageHeight = limits("y") + 300
+
+		let newX = Math.min(pos.x, 0)
+		let newY = Math.min(pos.y, 0)
+
+		newX = Math.max(newX, wrapperWidth - imageWidth * zoom.x)
+		newY = Math.max(newY, 500 - imageHeight * zoom.y)
+
+		return {
+			x: newX,
+			y: newY
+		}
+	}
 
 	useEffect(() => {
 		setSeatsInCart(cart.map((item) => item.ticketId))
@@ -182,11 +222,12 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 					onMouseEnter={() => changeCursorStyle(stageRef, "grab")}
 					onMouseLeave={() => changeCursorStyle(stageRef, "default")}
 					onMouseDown={() => changeCursorStyle(stageRef, "grabbing")}
-					onMouseUp={() => changeCursorStyle(stageRef, "pointer")}
+					onMouseUp={() => changeCursorStyle(stageRef, "grab")}
 					draggable
 					width={wrapperWidth}
 					height={500}
 					ref={stageRef}
+					dragBoundFunc={(pos) => dragBoundFunc(pos)}
 				>
 					<Layer
 						x={seatsOffset}
