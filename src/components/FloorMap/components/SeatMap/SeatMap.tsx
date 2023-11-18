@@ -144,48 +144,105 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 		const models: any = []
 
 		Array.from(xmlDoc!.children).forEach((child) => {
+			const defineLabel = () => {
+				if (typeof decoder() === "object") {
+					return decoder().valueEN
+				}
+			}
+
+			const decoder = () => {
+				const encodedName = child.getAttribute("data-definition")
+				if (!encodedName) {
+					return child.textContent
+				}
+
+				const dataDefinitionDecoded = decodeURIComponent(encodedName)
+
+				try {
+					const dataDefinition = JSON.parse(dataDefinitionDecoded)
+					return dataDefinition.name
+				} catch (e) {
+					console.error("Error parsing JSON:", e)
+					return null
+				}
+			}
+
 			const definition = () => {
+				const width = child.getAttribute("width")
+				const height = child.getAttribute("height")
+				const x = child.getAttribute("x")
+				const y = child.getAttribute("y")
+
 				if (child.tagName === "path") {
 					return [child.getAttribute("d")]
+				} else if (type(child) === "floor") {
+					return [x, y, width, height]
 				} else if (child.tagName === "ellipse") {
 					return [Number(child.getAttribute("cx")), Number(child.getAttribute("cy"))]
+				} else if (type(child) === "stage") {
+					return [x, y, width, height]
+				} else if (type(child) === "label") {
+					return [x, y, width, height]
 				} else {
 					return [Number(child.getAttribute("x")), Number(child.getAttribute("y"))]
 				}
 			}
 
+			const type = (child: Element): string | undefined => {
+				const seat = child.tagName === "ellipse"
+				const row = false
+				const floor = child.tagName === "rect" && !!child.getAttribute("data-capacity")
+				const stage = defineLabel() === "Stage"
+				const table = child.tagName === "rect" && !child.getAttribute("data-definition")
+				const area = false
+				const line = child.tagName === "path"
+				const label = defineLabel() !== "Stage" && defineLabel() !== undefined
+
+				const typeMapping: { [key: string]: boolean } = {
+					seat: seat,
+					row: row,
+					floor: floor,
+					stage: stage,
+					table: table,
+					area: area,
+					line: line,
+					label: label
+				}
+
+				return Object.keys(typeMapping).find((key) => typeMapping[key]) || undefined
+			}
+
 			const model = {
 				eventSeatId: child.getAttribute("id"),
-				eventPriceId: "--",
-				capacityLeft: "--",
 				capacity: child.getAttribute("data-capacity"),
 				rowNum: child.getAttribute("rownum"),
 				place: child.getAttribute("data-place"),
-				type: child.getAttribute("data-element-type"),
+				type: type(child),
 				def: definition(),
-				name: child.getAttribute("data-definition")
+				name: decoder() ?? child.textContent
 			}
 			models.push(model)
 		})
 		return models
 	}
 
-	const limits = (limit: string) => {
-		let maxValue = 900
-		seats.forEach((seat: seat) => {
-			const [x, y] = seat.def
-			if (limit === "x" && x > maxValue) {
-				maxValue = x
-			} else if (limit === "y" && y > maxValue) {
-				maxValue = y
-			}
-		})
-		return maxValue
-	}
+	// const limits = (limit: string) => {
+	// 	let maxValue = 0
+	// 	seats.forEach((seat: seat) => {
+	// 		const [x, y] = seat.def
+	// 		console.log(seat)
+	// 		if (limit === "x" && x > maxValue) {
+	// 			maxValue = x
+	// 		} else if (limit === "y" && y > maxValue) {
+	// 			maxValue = y
+	// 		}
+	// 	})
+	// 	return maxValue
+	// }
 
 	const dragBoundFunc = (pos: { x: number; y: number }) => {
-		const imageWidth = limits("x") + 900
-		const imageHeight = limits("y") + 300
+		const imageWidth = 2000
+		const imageHeight = 2000
 
 		let newX = Math.min(pos.x, 0)
 		let newY = Math.min(pos.y, 0)
@@ -225,13 +282,12 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 					onMouseUp={() => changeCursorStyle(stageRef, "grab")}
 					draggable
 					width={wrapperWidth}
-					height={500}
+					height={1000}
 					ref={stageRef}
 					dragBoundFunc={(pos) => dragBoundFunc(pos)}
 				>
 					<Layer
 						x={seatsOffset}
-						y={75}
 						id="seats"
 					>
 						<SeatItem
