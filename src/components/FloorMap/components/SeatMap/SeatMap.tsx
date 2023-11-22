@@ -5,6 +5,7 @@ import { Label, Layer, Stage, Tag, Text } from "react-konva"
 import ControlButtons from "../../../ControlButtons/ControlButtons"
 import { changeCursorStyle } from "../../../../helpers/helpers"
 import SeatItem from "../SeatItem/SeatItem"
+import stage from "../../../../assets/stage.svg"
 
 interface SeatMapProps {
 	priceList: number[]
@@ -44,18 +45,6 @@ interface tooltipConfig {
 	y: number
 	text: string
 	visible: boolean
-}
-
-interface seat {
-	capacity: string
-	capacityLeft: string
-	def: number[]
-	eventPriceId: string
-	eventSeatId: string
-	name: string
-	place: string
-	rowNum: string
-	type: string
 }
 
 const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd = () => {}, cart = [] }) => {
@@ -135,94 +124,94 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 		}
 	}
 
+	console.log(stage)
+
 	async function svgParser() {
-		const response = await fetch("/static/media/stage.6a492f3c92905d088c63fc3b809294f1.svg")
+		const response = await fetch("/static/media/stage.2b826112d7c3e1b28fc8847051f858ed.svg")
 		const svgContent = await response.text()
 
 		const xmlDoc = new DOMParser().parseFromString(svgContent, "text/xml").querySelector("g")
 
 		const models: any = []
+		if (xmlDoc !== null) {
+			Array.from(xmlDoc.children).forEach((child) => {
+				const defineLabel = (language: "valueEN" | "valueUA" | "valueBY" | "valuePL" | "valueRU") => {
+					const encodedName = child.getAttribute("data-definition")
+					if (!encodedName) {
+						return child.textContent
+					}
 
-		Array.from(xmlDoc!.children).forEach((child) => {
-			const defineLabel = () => {
-				if (typeof decoder() === "object") {
-					return decoder().valueEN
-				}
-			}
-
-			const decoder = () => {
-				const encodedName = child.getAttribute("data-definition")
-				if (!encodedName) {
-					return child.textContent
-				}
-
-				const dataDefinitionDecoded = decodeURIComponent(encodedName)
-
-				try {
-					const dataDefinition = JSON.parse(dataDefinitionDecoded)
-					return dataDefinition.name
-				} catch (e) {
-					console.error("Error parsing JSON:", e)
-					return null
-				}
-			}
-
-			const definition = () => {
-				const width = child.getAttribute("width")
-				const height = child.getAttribute("height")
-				const x = child.getAttribute("x")
-				const y = child.getAttribute("y")
-
-				if (child.tagName === "path") {
-					return [child.getAttribute("d")]
-				} else if (type(child) === "floor") {
-					return [x, y, width, height]
-				} else if (child.tagName === "ellipse") {
-					return [Number(child.getAttribute("cx")), Number(child.getAttribute("cy"))]
-				} else if (type(child) === "stage") {
-					return [x, y, width, height]
-				} else if (type(child) === "label") {
-					return [x, y, width, height]
-				} else {
-					return [Number(child.getAttribute("x")), Number(child.getAttribute("y"))]
-				}
-			}
-
-			const type = (child: Element): string | undefined => {
-				const seat = child.tagName === "ellipse"
-				const row = false
-				const floor = child.tagName === "rect" && !!child.getAttribute("data-capacity")
-				const stage = defineLabel() === "Stage"
-				const table = child.tagName === "rect" && !child.getAttribute("data-definition")
-				const area = false
-				const line = child.tagName === "path"
-				const label = defineLabel() !== "Stage" && defineLabel() !== undefined
-
-				const typeMapping: { [key: string]: boolean } = {
-					seat: seat,
-					row: row,
-					floor: floor,
-					stage: stage,
-					table: table,
-					area: area,
-					line: line,
-					label: label
+					const dataDefinitionDecoded = decodeURIComponent(encodedName)
+					try {
+						const dataDefinition = JSON.parse(dataDefinitionDecoded)
+						return dataDefinition.name[language]
+					} catch (e) {
+						console.error("Error parsing JSON:", e)
+						return child.textContent
+					}
 				}
 
-				return Object.keys(typeMapping).find((key) => typeMapping[key]) || undefined
-			}
+				const definition = () => {
+					const width = child.getAttribute("width")
+					const height = child.getAttribute("height")
+					const x = child.getAttribute("x")
+					const y = child.getAttribute("y")
 
-			const model = {
-				eventSeatId: child.getAttribute("id"),
-				capacity: child.getAttribute("data-capacity"),
-				rowNum: child.getAttribute("rownum"),
-				place: child.getAttribute("data-place"),
-				type: type(child),
-				def: definition(),
-				name: decoder() ?? child.textContent
-			}
-			models.push(model)
-		})
+					if (child.tagName === "path") {
+						return [child.getAttribute("d")]
+					} else if (defineType(child) === "floor") {
+						return [x, y, width, height]
+					} else if (child.tagName === "ellipse") {
+						return [Number(child.getAttribute("cx")), Number(child.getAttribute("cy"))]
+					} else if (defineType(child) === "stage") {
+						return [x, y, width, height]
+					} else if (defineType(child) === "label") {
+						return [x, y, width, height]
+					} else {
+						return [Number(child.getAttribute("x")), Number(child.getAttribute("y"))]
+					}
+				}
+
+				const defineType = (child: Element): string | undefined => {
+					const seat = child.tagName === "ellipse"
+					const row = false
+					const floor = child.tagName === "rect" && !!child.getAttribute("data-capacity")
+					const stage = defineLabel("valueEN") === "Stage"
+					const table = child.tagName === "rect" && !child.getAttribute("data-definition")
+					const area = false
+					const line = child.tagName === "path"
+					const label = defineLabel("valueEN") !== "Stage" && defineLabel("valueEN") !== undefined
+
+					const typeMapping: { [key: string]: boolean } = {
+						seat: seat,
+						row: row,
+						floor: floor,
+						stage: stage,
+						table: table,
+						area: area,
+						line: line,
+						label: label
+					}
+
+					return Object.keys(typeMapping).find((key) => typeMapping[key]) || undefined
+				}
+
+				const model = {
+					eventSeatId: child.getAttribute("id"),
+					capacity: child.getAttribute("data-capacity"),
+					rowNum: child.getAttribute("rownum"),
+					place: child.getAttribute("data-place"),
+					type: defineType(child),
+					def: definition(),
+					nameEN: defineLabel("valueEN"),
+					nameRU: defineLabel("valueRU"),
+					namePL: defineLabel("valuePL"),
+					nameUA: defineLabel("valueUA"),
+					nameBY: defineLabel("valueBY")
+				}
+				models.push(model)
+			})
+		}
 		return models
 	}
 
@@ -292,11 +281,6 @@ const SeatMap: FC<SeatMapProps> = ({ priceList = [], currency = "", onTicketAdd 
 					>
 						<SeatItem
 							seats={seats}
-							seatsInCart={seatsInCart}
-							handleMouseEnter={handleMouseEnter}
-							handleMouseLeave={handleMouseLeave}
-							onTicketAdd={onTicketAdd}
-							colors={colors}
 						/>
 
 						{tooltip.visible && (
